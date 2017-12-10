@@ -10,9 +10,9 @@ export class House {
         this.z = z * this.cubeSize;
         this.color = {
             mainHouse: 0x76533d,
-            mainHouseBottom: 0xbcbde2,
+            mainHouseBottom: 0xcccccc,
             column: 0xcf9c62,
-            roof: /*0x76543b*/ 0xbcbde2,
+            roof: /*0x76543b*/ 0xd3d3d3,
             window: 0xf8bc47,
             tube: 0x76533d,
             tubeTop: 0xcf9c62,
@@ -21,6 +21,12 @@ export class House {
         this.house = new THREE.Group();
     }
     generateMergedObject(geometry, width, height, depth, x, y, z, color) {
+        let cubeGeometry = makeCube(width, height, depth, color);
+        cubeGeometry.translate(x, y, z);
+        geometry.merge(cubeGeometry, cubeGeometry.matrix);
+        cubeGeometry.translate(-x, -y, -z);
+    }
+    generateMergedWindowObject(geometry, width, height, depth, x, y, z, color) {
         let cubeGeometry = makeCube(width, height, depth, color);
         cubeGeometry.translate(x, y, z);
         geometry.merge(cubeGeometry, cubeGeometry.matrix);
@@ -79,7 +85,7 @@ export class House {
             );
         }
         for (let i = 0; i < windowPositions.length; i++) {
-            this.generateMergedObject(
+            this.generateMergedWindowObject(
                 mergedWindowsGeometry,
                 this.cubeSize / 1.2,
                 this.cubeSize / 1.2,

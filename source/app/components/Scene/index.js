@@ -2,6 +2,8 @@ import * as THREE from "three";
 import { Floor } from "../Floor/index";
 import { House } from "../House/index";
 import { Tree } from "../Tree/index";
+import { ChristmasTree } from "../ChristmasTree/index";
+import { Deer } from "../Deer/index";
 import { TweenMax } from "gsap";
 import objectsMap from "./objectsMap";
 
@@ -37,6 +39,26 @@ export class Scene {
                             this.cubeSize,
                         );
                         tree.draw();
+                        break;
+                    case 2:
+                        let deer = new Deer(
+                            this.scene,
+                            i - this.getCenterMap().x,
+                            2,
+                            j - this.getCenterMap().y,
+                            this.cubeSize,
+                        );
+                        deer.draw();
+                        break;
+                    case 3:
+                        let christmasTree = new ChristmasTree(
+                            this.scene,
+                            i - this.getCenterMap().x,
+                            2,
+                            j - this.getCenterMap().y,
+                            this.cubeSize * 1.5,
+                        );
+                        christmasTree.draw();
                         break;
                 }
             }

@@ -27,7 +27,7 @@ export default class Particles {
             particleGeometry,
             particleMaterial
         );
-        pointCloud.position.y = this.height/4;
+        pointCloud.position.y = this.height/3;
         this.scene.add(pointCloud);
     }
 }

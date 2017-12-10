@@ -47,7 +47,7 @@ export default class Game {
         backLight.position.set(-10, 100, 60);
         scene.add(backLight);
 
-        const particles = new Particles(scene, 2000, 1000, 2000, 0xffffff, 200);
+        const particles = new Particles(scene, 1000, 1000, 1000, 0xffffff, 200);
         // particles.draw();
 
         const renderer = new THREE.WebGLRenderer({ antialias: true });
