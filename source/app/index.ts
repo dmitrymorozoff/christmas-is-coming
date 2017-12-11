@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three-orbitcontrols-ts";
 import { MyScene } from "./components/MyScene/index";
-// import Particles from "./components/Particles/index.js";
+// import { Particles } from "./components/Particles/index";
 
 export class Game {
     public aspect: number;

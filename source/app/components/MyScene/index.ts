@@ -9,11 +9,13 @@ import {
 } from "three";
 import { getRandomInt, makeCube } from "../../../utils/index";
 import { ChristmasTree } from "../ChristmasTree/index";
+import { Clouds } from "../Clouds/index";
 import { Deer } from "../Deer/index";
 import { Floor } from "../Floor/index";
 import { House } from "../House/index";
 import { Snowman } from "../Snowman/index";
 import { Tree } from "../Tree/index";
+import { cloudsMap } from "./cloudsMap";
 import { objectsMap } from "./objectsMap";
 
 export class MyScene {
@@ -100,6 +102,23 @@ export class MyScene {
                             (j - this.getCenterMap().y) * this.cubeSize,
                         );
                         this.scene.add(cube);
+                        break;
+                }
+            }
+        }
+        for (let i = 0; i < cloudsMap.length; i++) {
+            for (let j = 0; j < cloudsMap[i].length; j++) {
+                switch (cloudsMap[i][j]) {
+                    case 1:
+                        const clouds = new Clouds(
+                            this.scene,
+                            i - this.getCenterMap().x,
+                            9,
+                            j - this.getCenterMap().y,
+                            this.cubeSize,
+                        );
+                        clouds.draw();
+                        clouds.animate();
                         break;
                 }
             }

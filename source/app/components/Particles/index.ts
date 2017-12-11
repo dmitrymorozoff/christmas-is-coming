@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { Scene } from "three";
-import { getRandomInt } from "../../../utils/index.js";
+import { getRandomInt } from "../../../utils/index";
 
 export class Particles {
     public particleCount: number;

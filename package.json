@@ -11,6 +11,7 @@
     "author": "",
     "license": "MIT",
     "dependencies": {
+        "@types/gsap": "^1.19.1",
         "@types/three": "^0.84.35",
         "awesome-typescript-loader": "^3.4.1",
         "babel-polyfill": "^6.26.0",

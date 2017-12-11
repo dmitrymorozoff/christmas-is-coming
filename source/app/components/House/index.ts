@@ -45,7 +45,7 @@ export class House {
             mainHouseBottom: 0xcccccc,
             column: 0xcf9c62,
             roof: /*0x76543b*/ 0xffffff,
-            window: 0xf8bc47,
+            window: 0xffb932,
             tube: 0x76533d,
             tubeTop: 0xcf9c62,
             door: 0xcf9c62,
