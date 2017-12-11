@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es5",
+        "lib": [
+            "es6",
+            "dom",
+            "dom.iterable",
+            "scripthost",
+            "esnext.asynciterable"
+        ],
+        "downlevelIteration": true,
+        "strict": true,
+        "allowJs": true,
+        "allowUnreachableCode": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "noUnusedLocals": true,
+        "skipLibCheck": true
+    },
+    "exclude": ["node_modules"],
+    "compileOnSave": false
+}

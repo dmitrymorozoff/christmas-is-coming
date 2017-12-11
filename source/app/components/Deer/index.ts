@@ -1,8 +1,36 @@
-import * as THREE from "three";
+import {
+    Geometry,
+    Group,
+    Math,
+    Mesh,
+    MeshLambertMaterial,
+    Scene,
+    SmoothShading,
+    VertexColors,
+} from "three";
 import { makeCube } from "../../../utils/index";
 
 export class Deer {
-    constructor(scene, x = 0, y = 0, z = 0, cubeSize) {
+    public deer: any;
+    public color: {
+        main: number;
+        paws: number;
+        head: number;
+        horns: number;
+        nose: number;
+    };
+    public z: number;
+    public y: number;
+    public x: number;
+    public cubeSize: number;
+    public scene: Scene;
+    constructor(
+        scene: Scene,
+        x: number = 0,
+        y: number = 0,
+        z: number = 0,
+        cubeSize: number,
+    ) {
         this.scene = scene;
         this.cubeSize = cubeSize;
         this.x = x * this.cubeSize;
@@ -15,16 +43,25 @@ export class Deer {
             horns: 0xfbb37f,
             nose: 0xe50000,
         };
-        this.deer = new THREE.Group();
+        this.deer = new Group();
     }
-    generateMergedObject(geometry, width, height, depth, x, y, z, color) {
-        let cubeGeometry = makeCube(width, height, depth, color);
+    public generateMergedObject(
+        geometry: Geometry,
+        width: number,
+        height: number,
+        depth: number,
+        x: number,
+        y: number,
+        z: number,
+        color: number,
+    ) {
+        const cubeGeometry = makeCube(width, height, depth, color);
         cubeGeometry.translate(x, y, z);
-        geometry.merge(cubeGeometry, cubeGeometry.matrix);
+        geometry.merge(cubeGeometry);
         cubeGeometry.translate(-x, -y, -z);
     }
-    draw() {
-        let mergedHornsGeometry = new THREE.Geometry();
+    public draw() {
+        const mergedHornsGeometry = new Geometry();
         const hornsArray = [
             [0, 0, 0, 1, 0, 0, 0],
             [0, 0, 0, 1, 0, 0, 0],
@@ -49,10 +86,10 @@ export class Deer {
                 }
             }
         }
-        const mainMaterial = new THREE.MeshLambertMaterial({
+        const mainMaterial = new MeshLambertMaterial({
             color: 0xffffff,
-            shading: THREE.SmoothShading,
-            vertexColors: THREE.VertexColors,
+            shading: SmoothShading,
+            vertexColors: VertexColors,
         });
         const mainGeometry = makeCube(
             this.cubeSize * 2,
@@ -72,9 +109,9 @@ export class Deer {
             this.cubeSize / 6,
             this.color.nose,
         );
-        const main = new THREE.Mesh(mainGeometry, mainMaterial);
+        const main = new Mesh(mainGeometry, mainMaterial);
         main.position.y = this.cubeSize / 1.5;
-        let mergedPawsGeometry = new THREE.Geometry();
+        const mergedPawsGeometry = new Geometry();
         const pawsPositions = [
             {
                 x: this.cubeSize / 1.5,
@@ -102,35 +139,35 @@ export class Deer {
                 z: 0,
             },
         ];
-        for (let i = 0; i < pawsPositions.length; i++) {
+        for (const position of pawsPositions) {
             this.generateMergedObject(
                 mergedPawsGeometry,
                 this.cubeSize / 5,
                 this.cubeSize,
                 this.cubeSize / 5,
-                pawsPositions[i].x,
-                pawsPositions[i].y,
-                pawsPositions[i].z,
+                position.x,
+                position.y,
+                position.z,
                 this.color.paws,
             );
         }
-        const paws = new THREE.Mesh(mergedPawsGeometry, mainMaterial);
-        const head = new THREE.Mesh(headGeometry, mainMaterial);
-        const nose = new THREE.Mesh(noseGeometry, mainMaterial);
-        const hornsRight = new THREE.Mesh(mergedHornsGeometry, mainMaterial);
-        const hornsLeft = new THREE.Mesh(mergedHornsGeometry, mainMaterial);
+        const paws = new Mesh(mergedPawsGeometry, mainMaterial);
+        const head = new Mesh(headGeometry, mainMaterial);
+        const nose = new Mesh(noseGeometry, mainMaterial);
+        const hornsRight = new Mesh(mergedHornsGeometry, mainMaterial);
+        const hornsLeft = new Mesh(mergedHornsGeometry, mainMaterial);
         hornsLeft.position.set(
             -this.cubeSize / 2,
             this.cubeSize * 2.25,
             -this.cubeSize / 6,
         );
-        hornsLeft.rotation.z = THREE.Math.degToRad(90);
+        hornsLeft.rotation.z = Math.degToRad(90);
         hornsRight.position.set(
             -this.cubeSize / 2,
             this.cubeSize * 2.25,
             this.cubeSize / 6,
         );
-        hornsRight.rotation.z = THREE.Math.degToRad(90);
+        hornsRight.rotation.z = Math.degToRad(90);
         head.position.set(-this.cubeSize / 1.1, this.cubeSize * 2, 0);
         nose.position.set(-this.cubeSize * 1.3, this.cubeSize * 2.225, 0);
         this.deer.add(main);

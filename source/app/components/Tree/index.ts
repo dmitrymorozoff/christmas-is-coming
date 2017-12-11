@@ -1,8 +1,28 @@
-import * as THREE from "three";
+import {
+    Group,
+    Mesh,
+    MeshLambertMaterial,
+    Scene,
+    SmoothShading,
+    VertexColors,
+} from "three";
 import { makeCube } from "../../../utils/index";
 
 export class Tree {
-    constructor(scene, x = 0, y = 0, z = 0, cubeSize) {
+    public tree: Group;
+    public color: { trunk: number; cup: number };
+    public z: number;
+    public y: number;
+    public x: number;
+    public cubeSize: number;
+    public scene: Scene;
+    constructor(
+        scene: Scene,
+        x: number = 0,
+        y: number = 0,
+        z: number = 0,
+        cubeSize: number,
+    ) {
         this.scene = scene;
         this.cubeSize = cubeSize;
         this.x = x;
@@ -12,13 +32,13 @@ export class Tree {
             trunk: 0x76543b,
             cup: 0xffffff,
         };
-        this.tree = new THREE.Group();
+        this.tree = new Group();
     }
-    draw() {
-        const mainMaterial = new THREE.MeshLambertMaterial({
+    public draw() {
+        const mainMaterial = new MeshLambertMaterial({
             color: 0xffffff,
-            shading: THREE.SmoothShading,
-            vertexColors: THREE.VertexColors,
+            shading: SmoothShading,
+            vertexColors: VertexColors,
         });
         const trunkGeometry = makeCube(
             this.cubeSize / 3,
@@ -26,7 +46,7 @@ export class Tree {
             this.cubeSize / 3,
             this.color.trunk,
         );
-        const trunk = new THREE.Mesh(trunkGeometry, mainMaterial);
+        const trunk = new Mesh(trunkGeometry, mainMaterial);
 
         const cupGeometry = makeCube(
             this.cubeSize + this.cubeSize / 4,
@@ -40,8 +60,8 @@ export class Tree {
             this.cubeSize,
             this.color.cup,
         );
-        const cup = new THREE.Mesh(cupGeometry, mainMaterial);
-        const bottomCube = new THREE.Mesh(bottomCubeGeometry, mainMaterial);
+        const cup = new Mesh(cupGeometry, mainMaterial);
+        const bottomCube = new Mesh(bottomCubeGeometry, mainMaterial);
         cup.position.y = this.cubeSize;
         bottomCube.position.y = -this.cubeSize / 2;
         this.tree.add(trunk);

@@ -1,8 +1,40 @@
-import * as THREE from "three";
+import {
+    Geometry,
+    Group,
+    Math,
+    Mesh,
+    MeshLambertMaterial,
+    Scene,
+    SmoothShading,
+    VertexColors,
+} from "three";
 import { makeCube } from "../../../utils/index";
 
 export class House {
-    constructor(scene, x = 0, y = 0, z = 0, cubeSize) {
+    public house: Group;
+    public color: {
+        mainHouse: number;
+        mainHouseBottom: number;
+        column: number;
+        roof: number;
+        window: number;
+        tube: number;
+        tubeTop: number;
+        door: number;
+        border: number;
+    };
+    public z: number;
+    public y: number;
+    public x: number;
+    public cubeSize: number;
+    public scene: Scene;
+    constructor(
+        scene: Scene,
+        x: number = 0,
+        y: number = 0,
+        z: number = 0,
+        cubeSize: number,
+    ) {
         this.scene = scene;
         this.cubeSize = cubeSize;
         this.x = x * this.cubeSize;
@@ -12,32 +44,60 @@ export class House {
             mainHouse: 0x76533d,
             mainHouseBottom: 0xcccccc,
             column: 0xcf9c62,
-            roof: /*0x76543b*/ 0xd3d3d3,
+            roof: /*0x76543b*/ 0xffffff,
             window: 0xf8bc47,
             tube: 0x76533d,
             tubeTop: 0xcf9c62,
             door: 0xcf9c62,
+            border: 0x583f2c,
         };
-        this.house = new THREE.Group();
+        this.house = new Group();
     }
-    generateMergedObject(geometry, width, height, depth, x, y, z, color) {
-        let cubeGeometry = makeCube(width, height, depth, color);
+    public generateMergedObject(
+        geometry: Geometry,
+        width: number,
+        height: number,
+        depth: number,
+        x: number,
+        y: number,
+        z: number,
+        color: number,
+    ) {
+        const cubeGeometry = makeCube(width, height, depth, color);
         cubeGeometry.translate(x, y, z);
-        geometry.merge(cubeGeometry, cubeGeometry.matrix);
+        geometry.merge(cubeGeometry);
         cubeGeometry.translate(-x, -y, -z);
     }
-    generateMergedWindowObject(geometry, width, height, depth, x, y, z, color) {
-        let cubeGeometry = makeCube(width, height, depth, color);
+    public generateMergedWindowObject = (
+        geometry: Geometry,
+        width: number,
+        height: number,
+        depth: number,
+        x: number,
+        y: number,
+        z: number,
+        color: number,
+    ) => {
+        const cubeGeometry = makeCube(width, height, depth, color);
+        const borderGeometry = makeCube(
+            width + 35,
+            height / 2.8,
+            depth + 35,
+            this.color.border,
+        );
         cubeGeometry.translate(x, y, z);
-        geometry.merge(cubeGeometry, cubeGeometry.matrix);
+        borderGeometry.translate(x + 15, y + height / 2.1, z);
+        geometry.merge(cubeGeometry);
+        geometry.merge(borderGeometry);
         cubeGeometry.translate(-x, -y, -z);
+        borderGeometry.translate(-x + 15, -y + height / 2.1, -z);
     }
-    draw() {
+    public draw() {
         const houseWidth = this.cubeSize * 4;
         const houseHeight = this.cubeSize * 5;
         const houseDepth = this.cubeSize * 4;
-        let mergedColumnsGeometry = new THREE.Geometry();
-        let mergedWindowsGeometry = new THREE.Geometry();
+        const mergedColumnsGeometry = new Geometry();
+        const mergedWindowsGeometry = new Geometry();
         const columnPositions = [
             {
                 x: this.x - this.cubeSize / 4 + this.cubeSize / 8,
@@ -72,44 +132,40 @@ export class House {
                 z: this.z / 2 + this.cubeSize / 2.4 + this.cubeSize / 1.2,
             },
         ];
-        for (let i = 0; i < columnPositions.length; i++) {
+        for (const position of columnPositions) {
             this.generateMergedObject(
                 mergedColumnsGeometry,
                 this.cubeSize / 2,
                 houseHeight,
                 this.cubeSize / 2,
-                columnPositions[i].x,
-                columnPositions[i].y,
-                columnPositions[i].z,
+                position.x,
+                position.y,
+                position.z,
                 this.color.column,
             );
         }
-        for (let i = 0; i < windowPositions.length; i++) {
+        for (const position of windowPositions) {
             this.generateMergedWindowObject(
                 mergedWindowsGeometry,
-                this.cubeSize / 1.2,
-                this.cubeSize / 1.2,
-                this.cubeSize / 1.2,
-                windowPositions[i].x,
-                windowPositions[i].y,
-                windowPositions[i].z,
+                this.cubeSize / 1.3,
+                this.cubeSize / 1.3,
+                this.cubeSize / 1.3,
+                position.x,
+                position.y,
+                position.z,
                 this.color.window,
             );
         }
-        const mainMaterial = new THREE.MeshLambertMaterial({
+        const mainMaterial = new MeshLambertMaterial({
             color: 0xffffff,
-            shading: THREE.SmoothShading,
-            vertexColors: THREE.VertexColors,
+            shading: SmoothShading,
+            vertexColors: VertexColors,
         });
-        const roofMaterial = new THREE.MeshLambertMaterial({
-            color: this.color.roof,
-            shading: THREE.SmoothShading,
-            vertexColors: THREE.VertexColors,
-        });
-        const roofGeometry = new THREE.ConeGeometry(
-            houseWidth,
-            houseHeight / 2,
-            4,
+        const roofGeometry = makeCube(
+            houseWidth +  this.cubeSize,
+            houseHeight / 10,
+            houseDepth + this.cubeSize,
+            this.color.roof,
         );
         const mainHouseGeometry = makeCube(
             houseWidth,
@@ -123,11 +179,8 @@ export class House {
             houseDepth + this.cubeSize * 2,
             this.color.mainHouseBottom,
         );
-        const mainHouse = new THREE.Mesh(mainHouseGeometry, mainMaterial);
-        const mainHouseBottom = new THREE.Mesh(
-            mainHouseBottomGeometry,
-            mainMaterial,
-        );
+        const mainHouse = new Mesh(mainHouseGeometry, mainMaterial);
+        const mainHouseBottom = new Mesh(mainHouseBottomGeometry, mainMaterial);
         mainHouseBottom.position.y = -houseHeight / 2;
         const tubeGeometry = makeCube(
             houseWidth / 7,
@@ -147,50 +200,63 @@ export class House {
             houseDepth / 4,
             this.color.door,
         );
-        const roof = new THREE.Mesh(roofGeometry, roofMaterial);
-        roof.position.y = this.y - this.cubeSize / 2;
-        roof.rotation.y = THREE.Math.degToRad(45);
-        const columns = new THREE.Mesh(mergedColumnsGeometry, mainMaterial);
-        const tube = new THREE.Mesh(tubeGeometry, mainMaterial);
-        const tubeTop = new THREE.Mesh(tubeTopGeometry, mainMaterial);
+        const roof = new Mesh(roofGeometry, mainMaterial);
+        roof.position.y = this.y - this.cubeSize - this.cubeSize / 4;
+        roof.position.z = -this.cubeSize / 8;
+        const columns = new Mesh(mergedColumnsGeometry, mainMaterial);
+        const tube = new Mesh(tubeGeometry, mainMaterial);
+        const tubeTop = new Mesh(tubeTopGeometry, mainMaterial);
         tube.position.set(
-            this.cubeSize / 2,
+            this.cubeSize ,
             houseHeight / 1.4,
-            2 * this.cubeSize,
+            1.5 * this.cubeSize,
         );
         tubeTop.position.set(
-            this.cubeSize / 2,
+            this.cubeSize ,
             houseHeight / 1.1,
-            2 * this.cubeSize,
+            1.5 * this.cubeSize,
         );
-        const windowLeft = new THREE.Mesh(mergedWindowsGeometry, mainMaterial);
-        const windowBottom = new THREE.Mesh(
+        const windowLeft = new Mesh(mergedWindowsGeometry, mainMaterial);
+        const windowBottom = new Mesh(mergedWindowsGeometry, mainMaterial);
+        const windowBottomSecond = new Mesh(
             mergedWindowsGeometry,
             mainMaterial,
         );
-        const windowBottomSecond = new THREE.Mesh(
-            mergedWindowsGeometry,
+        const door = new Mesh(doorGeometry, mainMaterial);
+        const doorBorder = new Mesh(
+            makeCube(
+                houseWidth / 8,
+                houseHeight / 16,
+                houseDepth / 3.2,
+                this.color.border,
+            ),
             mainMaterial,
         );
-        const door = new THREE.Mesh(doorGeometry, mainMaterial);
         door.position.set(
             -houseWidth / 2,
             -this.cubeSize * 2,
             this.z / 2 + this.cubeSize / 2.6,
         );
+        doorBorder.position.set(
+            -houseWidth / 2 + 10,
+            -this.cubeSize + 20,
+            this.z / 2 + this.cubeSize / 2.6,
+        );
         windowBottomSecond.position.y -= this.cubeSize * 1.5;
-        windowBottomSecond.rotateY(THREE.Math.degToRad(90));
-        windowBottom.rotateY(THREE.Math.degToRad(90));
+        windowBottomSecond.rotateY(Math.degToRad(90));
+        windowBottom.rotateY(Math.degToRad(90));
         this.house.add(columns);
         this.house.add(roof);
         this.house.add(mainHouseBottom);
         this.house.add(door);
+        this.house.add(doorBorder);
         this.house.add(tube);
         this.house.add(tubeTop);
         this.house.add(windowLeft);
         this.house.add(windowBottom);
         this.house.add(windowBottomSecond);
         this.house.add(mainHouse);
+        this.house.castShadow = true;
         this.house.position.set(this.x, this.y, this.z);
         this.scene.add(this.house);
     }

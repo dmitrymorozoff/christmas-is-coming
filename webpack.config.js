@@ -1,60 +1,62 @@
 const webpack = require("webpack");
 const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const BrowserSyncPlugin = require("browser-sync-webpack-plugin");
 
 module.exports = {
-    entry: "./source/app.js",
+    entry: ["./source/index.ts"],
     output: {
         path: path.resolve(__dirname, "dist/js"),
-        publicPath: "/js/",
-        filename: "bundle.js"
+        publicPath: "",
+        filename: "js/bundle.js",
+    },
+    resolve: {
+        extensions: [".ts", ".js", ".css"],
+        modules: [path.resolve("./source"), "node_modules"],
     },
     module: {
-        loaders: [
+        rules: [
             {
-                test: /\.js$/,
-                exclude: /(node_modules|bower_components)/,
-                use: {
-                    loader: "babel-loader",
-                    options: {
-                        presets: ["env"]
-                    }
-                }
-            }
-        ]
-    },
-    plugins: [
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NamedModulesPlugin(),
-        new BrowserSyncPlugin(
-            {
-                host: "localhost",
-                port: 3001,
-                proxy: "http://localhost:8080/",
-                files: [
-                    {
-                        match: ["**/*.html"],
-                        fn: event => {
-                            if (event === "change") {
-                                const browserSync = require("browser-sync").get(
-                                    "bs-webpack-plugin"
-                                );
-                                browserSync.reload();
-                            }
-                        }
-                    }
-                ]
+                test: /\.ts$/,
+                enforce: "pre",
+                loader: "tslint-loader",
+                exclude: /node_modules/,
+                options: {
+                    emitErrors: true,
+                },
             },
             {
-                reload: false
-            }
-        )
+                test: /\.ts?$/,
+                loader: ["babel-loader", "awesome-typescript-loader"],
+            },
+        ],
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: "./source/index-template.html",
+            minify: {
+                removeComments: true,
+                collapseWhitespace: true,
+                collapseBooleanAttributes: true,
+                removeAttributeQuotes: true,
+                removeRedundantAttributes: true,
+                removeEmptyAttributes: true,
+                removeScriptTypeAttributes: true,
+                removeStyleLinkTypeAttributes: true,
+                removeOptionalTags: true,
+            },
+            hash: true,
+        }),
     ],
     devServer: {
+        port: 8080,
+        host: "localhost",
         hot: true,
+        inline: true,
+        open: true,
+        historyApiFallback: true,
         contentBase: path.resolve(__dirname, "dist"),
-        publicPath: "/js/"
     },
     watch: true,
-    devtool: "cheap-eval-source-map"
+    devtool: "cheap-eval-source-map",
 };
