@@ -10,6 +10,7 @@ import { makeCube } from "../../../utils/index";
 import { floorMap } from "./floorMap";
 
 export class Floor {
+    public color: { white: number; purple: number; orange: number };
     public cubeSize: number;
     public z: number;
     public y: number;
@@ -27,6 +28,11 @@ export class Floor {
         this.y = y;
         this.z = z;
         this.cubeSize = cubeSize;
+        this.color = {
+            white: 0xffffff,
+            purple: 0x969edd,
+            orange: 0xd8af81,
+        };
     }
     public getCenterMap() {
         return {
@@ -57,19 +63,36 @@ export class Floor {
     }
     public draw() {
         const mergedFloorGeometry = new Geometry();
+        let color: number = 0;
+        let flag: boolean = false;
         for (let i = 0; i < floorMap.length; i++) {
             for (let j = 0; j < floorMap[i].length; j++) {
+                color = 0;
+                flag = false;
                 switch (floorMap[i][j]) {
                     case 1:
-                        this.generateMergedObject(
-                            mergedFloorGeometry,
-                            i,
-                            j,
-                            this.getCenterMap().x,
-                            this.getCenterMap().y,
-                            0xffffff,
-                        );
+                        color = this.color.white;
+                        flag = true;
                         break;
+                    case 2:
+                        color = this.color.purple;
+                        flag = true;
+
+                        break;
+                    case 3:
+                        color = this.color.orange;
+                        flag = true;
+                        break;
+                }
+                if (flag) {
+                    this.generateMergedObject(
+                        mergedFloorGeometry,
+                        i,
+                        j,
+                        this.getCenterMap().x,
+                        this.getCenterMap().y,
+                        color,
+                    );
                 }
             }
         }

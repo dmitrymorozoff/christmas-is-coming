@@ -69,9 +69,11 @@ export class Clouds {
             this.generateMergedObject(
                 mergedCloudsGeometry,
                 cloudSizes[i],
-                i * cloudSizes[i] * 1.25,
+                i * cloudSizes[i] * 1.25 + this.cubeSize / 4,
                 0,
-                i * cloudSizes[i] * 1.25 + rand * getRandomInt(-50, 150),
+                i * cloudSizes[i] * 1.25 +
+                    rand * getRandomInt(-50, 150) +
+                    this.cubeSize / 4,
                 this.color.clouds,
             );
         }

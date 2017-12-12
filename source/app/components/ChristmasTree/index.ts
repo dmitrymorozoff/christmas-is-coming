@@ -37,7 +37,7 @@ export class ChristmasTree {
         this.y = y * this.cubeSize;
         this.z = z * this.cubeSize;
         this.color = {
-            tree: 0x16996d,
+            tree: 0x00845A,
             trunk: 0x76533d,
             bottom: 0xffffff,
             toysColor: [0x137ec2, 0xf6a131, 0xc91c26],

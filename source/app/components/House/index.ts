@@ -247,7 +247,7 @@ export class House {
         windowBottom.rotateY(Math.degToRad(90));
         this.house.add(columns);
         this.house.add(roof);
-        this.house.add(mainHouseBottom);
+        // this.house.add(mainHouseBottom);
         this.house.add(door);
         this.house.add(doorBorder);
         this.house.add(tube);

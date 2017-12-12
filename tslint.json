@@ -3,6 +3,7 @@
     "rules": {
         "triple-equals": true,
         "no-var-requires": false,
+        "no-console": false,
         "space-before-function-paren": [
             true,
             {
@@ -44,6 +45,7 @@
     "jsRules": {
         "triple-equals": true,
         "no-var-requires": false,
+        "no-console": false,
         "space-before-function-paren": [
             true,
             {
@@ -56,7 +58,6 @@
         ],
         "object-literal-sort-keys": false,
         "no-debugger": false,
-        "no-console": [false],
         "eofline": false,
         "jsx-no-multiline-js": false,
         "no-default-export": true
