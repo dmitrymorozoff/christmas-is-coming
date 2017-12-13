@@ -14,6 +14,7 @@ import { Deer } from "../Deer/index";
 import { Floor } from "../Floor/index";
 import { House } from "../House/index";
 import { Santa } from "../Santa/index";
+import { Lamp } from "../Lamp/index";
 import { Snowman } from "../Snowman/index";
 import { Tree } from "../Tree/index";
 import { cloudsMap } from "./cloudsMap";
@@ -103,6 +104,16 @@ export class MyScene {
                             (j - this.getCenterMap().y) * this.cubeSize,
                         );
                         this.scene.add(cube);
+                        break;
+                    case 6:
+                        const lamp = new Lamp(
+                            this.scene,
+                            i - this.getCenterMap().x,
+                            2,
+                            j - this.getCenterMap().y,
+                            this.cubeSize,
+                        );
+                        lamp.draw();
                         break;
                     case 8:
                         const santa = new Santa(

@@ -10,7 +10,12 @@ import { makeCube } from "../../../utils/index";
 import { floorMap } from "./floorMap";
 
 export class Floor {
-    public color: { white: number; purple: number; orange: number };
+    public color: {
+        white: number;
+        purple: number;
+        orange: number;
+        road: number;
+    };
     public cubeSize: number;
     public z: number;
     public y: number;
@@ -32,6 +37,7 @@ export class Floor {
             white: 0xffffff,
             purple: 0x969edd,
             orange: 0xd8af81,
+            road: 0x505050,
         };
     }
     public getCenterMap() {
@@ -81,6 +87,10 @@ export class Floor {
                         break;
                     case 3:
                         color = this.color.orange;
+                        flag = true;
+                        break;
+                    case 4:
+                        color = this.color.road;
                         flag = true;
                         break;
                 }

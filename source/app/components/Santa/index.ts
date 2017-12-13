@@ -39,7 +39,7 @@ export class Santa {
             white: 0xffffff,
             red: 0xdc1a22,
             brown: 0x432314,
-            black: 0xffffff,
+            black: 0x050505,
             face: 0xd79a6b,
         };
         this.santa = new Group();
@@ -71,6 +71,7 @@ export class Santa {
         });
         const mergedLegsGeometry = new Geometry();
         const mergedHandsGeometry = new Geometry();
+        const mergedEyeGeometry = new Geometry();
         const legsPositions = [
             {
                 x: -this.cubeSize / 4,
@@ -95,6 +96,18 @@ export class Santa {
                 z: this.cubeSize - this.cubeSize / 8,
             },
         ];
+        const eyePositions = [
+            {
+                x: -15,
+                y: this.cubeSize * 1.57,
+                z: -this.cubeSize / 4,
+            },
+            {
+                x: -15,
+                y: this.cubeSize * 1.57,
+                z: this.cubeSize / 4,
+            },
+        ];
         for (const position of handPositions) {
             this.generateMergedObject(
                 mergedHandsGeometry,
@@ -105,6 +118,18 @@ export class Santa {
                 position.y,
                 position.z,
                 this.color.red,
+            );
+        }
+        for (const position of eyePositions) {
+            this.generateMergedObject(
+                mergedEyeGeometry,
+                this.cubeSize / 8,
+                this.cubeSize / 8,
+                this.cubeSize / 8,
+                position.x,
+                position.y * 2,
+                position.z,
+                this.color.black,
             );
         }
         for (const position of legsPositions) {
@@ -222,8 +247,10 @@ export class Santa {
         this.changePositionMesh(face, 4.5, 3.1);
         const legsBottom = new Mesh(mergedLegsGeometry, mainMaterial);
         const hands = new Mesh(mergedHandsGeometry, mainMaterial);
+        const eye = new Mesh(mergedEyeGeometry, mainMaterial);
         this.santa.add(legsBottom);
         this.santa.add(hands);
+        this.santa.add(eye);
         this.santa.add(whiteMain);
         this.santa.add(redMain);
         this.santa.add(centerTopMain);
@@ -232,7 +259,7 @@ export class Santa {
         this.santa.add(cap);
         this.santa.add(capTop);
         this.santa.add(capCube);
-        this.santa.position.set(this.x, this.y, this.z);
+        this.santa.position.set(this.x, this.y - this.cubeSize / 2, this.z);
         this.scene.add(this.santa);
     }
 }
