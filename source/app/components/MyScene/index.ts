@@ -11,10 +11,11 @@ import { getRandomInt, makeCube } from "../../../utils/index";
 import { ChristmasTree } from "../ChristmasTree/index";
 import { Clouds } from "../Clouds/index";
 import { Deer } from "../Deer/index";
+import { Fireworks } from "../Fireworks/index";
 import { Floor } from "../Floor/index";
 import { House } from "../House/index";
-import { Santa } from "../Santa/index";
 import { Lamp } from "../Lamp/index";
+import { Santa } from "../Santa/index";
 import { Snowman } from "../Snowman/index";
 import { Tree } from "../Tree/index";
 import { cloudsMap } from "./cloudsMap";
@@ -44,6 +45,8 @@ export class MyScene {
         floor.draw();
         const house = new House(this.scene, 2, 4, -1, this.cubeSize);
         house.draw();
+        const rotationLamp = [0, 90];
+        let rotationIterator = 0;
         for (let i = 0; i < objectsMap.length; i++) {
             for (let j = 0; j < objectsMap[i].length; j++) {
                 switch (objectsMap[i][j]) {
@@ -112,8 +115,20 @@ export class MyScene {
                             2,
                             j - this.getCenterMap().y,
                             this.cubeSize,
+                            rotationLamp[rotationIterator],
                         );
                         lamp.draw();
+                        rotationIterator++;
+                        break;
+                    case 7:
+                        const firewokrs = new Fireworks(
+                            this.scene,
+                            i - this.getCenterMap().x,
+                            3,
+                            j - this.getCenterMap().y,
+                            this.cubeSize - 50,
+                        );
+                        firewokrs.draw();
                         break;
                     case 8:
                         const santa = new Santa(

@@ -1,5 +1,6 @@
 import {
     Group,
+    Math,
     Mesh,
     MeshLambertMaterial,
     Scene,
@@ -9,6 +10,7 @@ import {
 import { makeCube } from "../../../utils/index";
 
 export class Lamp {
+    public rotation: number;
     public lamp: Group;
     public color: { trunk: number; trunkTop: number; bottom: number };
     public z: number;
@@ -22,12 +24,14 @@ export class Lamp {
         y: number = 0,
         z: number = 0,
         cubeSize: number,
+        rotation: number,
     ) {
         this.scene = scene;
         this.cubeSize = cubeSize;
         this.x = x * this.cubeSize;
         this.y = y * this.cubeSize;
         this.z = z * this.cubeSize;
+        this.rotation = Math.degToRad(rotation);
         this.color = {
             trunk: 0x868d93,
             trunkTop: 0x535151,
@@ -86,6 +90,7 @@ export class Lamp {
         this.lamp.add(cap);
         this.lamp.add(capTop);
         this.lamp.add(bottomCube);
+        this.lamp.rotation.y = this.rotation;
         this.lamp.position.set(this.x, this.y, this.z);
         this.scene.add(this.lamp);
     }
