@@ -13,5 +13,3 @@ node_modules/
 
 # Optional npm cache directory
 .npm
-
-dist
