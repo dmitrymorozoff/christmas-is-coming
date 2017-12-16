@@ -109,12 +109,12 @@ export class Fireworks {
             4,
         );
         const bottomCube = new Mesh(bottomCubeGeometry, mainMaterial);
-        const cap = new Mesh(capGeometry, coneMaterial);
-        const topCube = new Mesh(topCubeGeometry, mainMaterial);
         bottomCube.position.y = -this.cubeSize / 2;
-        topCube.position.y = this.cubeSize * 1.75;
+        const cap = new Mesh(capGeometry, coneMaterial);
         cap.position.y = this.cubeSize * 2.1;
         cap.rotation.y = Math.degToRad(45);
+        const topCube = new Mesh(topCubeGeometry, mainMaterial);
+        topCube.position.y = this.cubeSize * 1.75;
         const fireworksMain = new Mesh(mergedFireworksGeometry, mainMaterial);
         fireworksMain.receiveShadow = true;
         this.fireworks.add(fireworksMain);

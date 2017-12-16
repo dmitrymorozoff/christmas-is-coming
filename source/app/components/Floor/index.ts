@@ -112,7 +112,6 @@ export class Floor {
             vertexColors: VertexColors,
         });
         const floor = new Mesh(mergedFloorGeometry, floorMaterial);
-
         floor.receiveShadow = true;
         this.scene.add(floor);
     }

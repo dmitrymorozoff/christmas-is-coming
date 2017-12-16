@@ -69,10 +69,8 @@ export class Snowman {
             this.color.hand,
         );
         const leftHand = new Mesh(handGeometry, mainMaterial);
-
         leftHand.position.set(0, 0.9 * this.cubeSize, 0);
         const rightHand = new Mesh(handGeometry, mainMaterial);
-
         rightHand.position.set(0, 0.9 * this.cubeSize, 0);
         nose.position.set(-this.cubeSize / 3, 1.35 * this.cubeSize, 0);
         this.snowman.add(nose);

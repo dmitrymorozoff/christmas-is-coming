@@ -102,10 +102,10 @@ export class Lamp {
         trunk.position.y = this.cubeSize / 4;
         const trunkTop = new Mesh(trunkTopGeometry, mainMaterial);
         const cap = new Mesh(capGeometry, mainMaterial);
-        const capTop = new Mesh(capTopGeometry, mainMaterial);
-        this.capBottom = new Mesh(capBottomGeometry, lampMaterial);
         cap.position.set(-this.cubeSize / 1.6, this.cubeSize * 3.5, 0);
+        const capTop = new Mesh(capTopGeometry, mainMaterial);
         capTop.position.set(-this.cubeSize - 15, this.cubeSize * 3.5, 0);
+        this.capBottom = new Mesh(capBottomGeometry, lampMaterial);
         this.capBottom.position.set(
             -this.cubeSize - 15,
             this.cubeSize * 3.25,

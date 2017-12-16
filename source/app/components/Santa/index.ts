@@ -119,7 +119,7 @@ export class Santa {
                 this.cubeSize,
                 this.cubeSize / 2.5,
                 position.x,
-                position.y - this.cubeSize ,
+                position.y - this.cubeSize,
                 position.z,
                 this.color.red,
             );
@@ -261,7 +261,6 @@ export class Santa {
         this.changePositionMesh(face, 4.5, 3.1);
         const legsBottom = new Mesh(mergedLegsGeometry, mainMaterial);
         this.hands = new Mesh(mergedHandsGeometry, mainMaterial);
-        console.log(this.hands);
         const eye = new Mesh(mergedEyeGeometry, mainMaterial);
         this.santa.add(legsBottom);
         this.santa.add(this.hands);
