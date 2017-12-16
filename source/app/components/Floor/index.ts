@@ -61,7 +61,7 @@ export class Floor {
             color,
         );
         const x = i * this.cubeSize - centerX;
-        const y = 1 * this.cubeSize;
+        const y = -2 * this.cubeSize;
         const z = j * this.cubeSize - centerY;
         cubeGeometry.translate(x, y, z);
         geometry.merge(cubeGeometry);
@@ -112,6 +112,7 @@ export class Floor {
             vertexColors: VertexColors,
         });
         const floor = new Mesh(mergedFloorGeometry, floorMaterial);
+
         floor.receiveShadow = true;
         this.scene.add(floor);
     }

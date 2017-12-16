@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three-orbitcontrols-ts";
 import { MyScene } from "./components/MyScene/index";
-// import { Particles } from "./components/Particles/index";
+import { Particles } from "./components/Particles/index";
 
 export class Game {
     public aspect: number;
@@ -34,10 +34,8 @@ export class Game {
 
         const controls = new OrbitControls(camera);
         controls.enableDamping = true;
+        controls.enabled = false;
         controls.dampingFactor = 0.25;
-
-        const axisHelper = new THREE.AxisHelper(1000);
-        scene.add(axisHelper);
 
         const shadowlight = new THREE.DirectionalLight(0xffffff, 0.3);
         shadowlight.position.set(0, 100, 0);
@@ -51,8 +49,8 @@ export class Game {
         backLight.position.set(-10, 100, 60);
         scene.add(backLight);
 
-        // const particles = new Particles(scene, 1000, 1000, 1000, 0xffffff, 200);
-        // particles.draw();
+        const particles = new Particles(scene, 1000, 1000, 1000, 0xffffff, 200);
+        particles.draw();
 
         const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setPixelRatio(window.devicePixelRatio);

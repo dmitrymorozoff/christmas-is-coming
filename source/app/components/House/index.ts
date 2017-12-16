@@ -162,7 +162,7 @@ export class House {
             vertexColors: VertexColors,
         });
         const roofGeometry = makeCube(
-            houseWidth +  this.cubeSize,
+            houseWidth + this.cubeSize,
             houseHeight / 10,
             houseDepth + this.cubeSize,
             this.color.roof,
@@ -201,18 +201,18 @@ export class House {
             this.color.door,
         );
         const roof = new Mesh(roofGeometry, mainMaterial);
-        roof.position.y = this.y - this.cubeSize - this.cubeSize / 4;
+        roof.position.y = this.y + this.cubeSize * 1.5;
         roof.position.z = -this.cubeSize / 8;
         const columns = new Mesh(mergedColumnsGeometry, mainMaterial);
         const tube = new Mesh(tubeGeometry, mainMaterial);
         const tubeTop = new Mesh(tubeTopGeometry, mainMaterial);
         tube.position.set(
-            this.cubeSize ,
+            this.cubeSize,
             houseHeight / 1.4,
             1.5 * this.cubeSize,
         );
         tubeTop.position.set(
-            this.cubeSize ,
+            this.cubeSize,
             houseHeight / 1.1,
             1.5 * this.cubeSize,
         );

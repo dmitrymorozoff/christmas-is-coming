@@ -1,6 +1,8 @@
+import { Power0, TweenMax } from "gsap";
 import {
     Geometry,
     Group,
+    Math,
     Mesh,
     MeshLambertMaterial,
     Scene,
@@ -10,6 +12,7 @@ import {
 import { makeCube } from "../../../utils/index";
 
 export class Santa {
+    public hands: any;
     public color: {
         white: number;
         red: number;
@@ -43,6 +46,7 @@ export class Santa {
             face: 0xd79a6b,
         };
         this.santa = new Group();
+        this.hands = null;
     }
     public generateMergedObject(
         geometry: Geometry,
@@ -87,12 +91,12 @@ export class Santa {
         const handPositions = [
             {
                 x: 0,
-                y: this.cubeSize * 1.5,
+                y: this.cubeSize * 3.45,
                 z: -this.cubeSize + this.cubeSize / 8,
             },
             {
                 x: 0,
-                y: this.cubeSize * 1.5,
+                y: this.cubeSize * 3.45,
                 z: this.cubeSize - this.cubeSize / 8,
             },
         ];
@@ -115,9 +119,19 @@ export class Santa {
                 this.cubeSize,
                 this.cubeSize / 2.5,
                 position.x,
-                position.y,
+                position.y - this.cubeSize ,
                 position.z,
                 this.color.red,
+            );
+            this.generateMergedObject(
+                mergedHandsGeometry,
+                this.cubeSize / 4,
+                this.cubeSize,
+                this.cubeSize / 4,
+                position.x,
+                position.y - this.cubeSize / 1.25,
+                position.z,
+                this.color.brown,
             );
         }
         for (const position of eyePositions) {
@@ -246,10 +260,11 @@ export class Santa {
         this.changePositionMesh(capCube, 4.5, 4.2);
         this.changePositionMesh(face, 4.5, 3.1);
         const legsBottom = new Mesh(mergedLegsGeometry, mainMaterial);
-        const hands = new Mesh(mergedHandsGeometry, mainMaterial);
+        this.hands = new Mesh(mergedHandsGeometry, mainMaterial);
+        console.log(this.hands);
         const eye = new Mesh(mergedEyeGeometry, mainMaterial);
         this.santa.add(legsBottom);
-        this.santa.add(hands);
+        this.santa.add(this.hands);
         this.santa.add(eye);
         this.santa.add(whiteMain);
         this.santa.add(redMain);
@@ -261,5 +276,15 @@ export class Santa {
         this.santa.add(capCube);
         this.santa.position.set(this.x, this.y - this.cubeSize / 2, this.z);
         this.scene.add(this.santa);
+    }
+    public animate() {
+        TweenMax.to(this.hands.rotation, 3, {
+            z: Math.degToRad(10),
+            x: 0,
+            y: 0,
+            repeat: -1,
+            yoyo: true,
+            ease: Power0.easeNone,
+        } as any);
     }
 }

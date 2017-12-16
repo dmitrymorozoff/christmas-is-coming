@@ -1,5 +1,8 @@
 import {
+    CircleGeometry,
+    Math,
     Mesh,
+    MeshBasicMaterial,
     MeshLambertMaterial,
     OrthographicCamera,
     Renderer,
@@ -41,9 +44,16 @@ export class MyScene {
         };
     }
     public draw() {
+        const circleGeometry = new CircleGeometry(1000, 32);
+        const circleMaterial = new MeshBasicMaterial({ color: 0x323163 });
+        const circle = new Mesh(circleGeometry, circleMaterial);
+        circle.rotation.y = Math.degToRad(-45);
+        circle.rotation.x = Math.degToRad(-45);
+        circle.position.set(1550, -1000, -1500);
+        this.scene.add(circle);
         const floor = new Floor(this.scene, 0, 0, 0, this.cubeSize);
         floor.draw();
-        const house = new House(this.scene, 2, 4, -1, this.cubeSize);
+        const house = new House(this.scene, 2, 1, -1, this.cubeSize);
         house.draw();
         const rotationLamp = [0, 90];
         let rotationIterator = 0;
@@ -54,7 +64,7 @@ export class MyScene {
                         const tree = new Tree(
                             this.scene,
                             i - this.getCenterMap().x,
-                            2,
+                            -1,
                             j - this.getCenterMap().y,
                             this.cubeSize,
                         );
@@ -64,7 +74,7 @@ export class MyScene {
                         const deer = new Deer(
                             this.scene,
                             i - this.getCenterMap().x,
-                            2,
+                            -1,
                             j - this.getCenterMap().y,
                             this.cubeSize,
                         );
@@ -74,17 +84,18 @@ export class MyScene {
                         const christmasTree = new ChristmasTree(
                             this.scene,
                             i - this.getCenterMap().x,
-                            2,
+                            0,
                             j - this.getCenterMap().y,
                             this.cubeSize * 1.5,
                         );
                         christmasTree.draw();
+                        christmasTree.animate();
                         break;
                     case 4:
                         const snowman = new Snowman(
                             this.scene,
                             i - this.getCenterMap().x,
-                            2,
+                            -1,
                             j - this.getCenterMap().y,
                             this.cubeSize,
                         );
@@ -103,7 +114,7 @@ export class MyScene {
                         );
                         cube.position.set(
                             (i - this.getCenterMap().x) * this.cubeSize,
-                            2 * this.cubeSize - size / 2,
+                            -1 * this.cubeSize - size / 2,
                             (j - this.getCenterMap().y) * this.cubeSize,
                         );
                         this.scene.add(cube);
@@ -112,19 +123,20 @@ export class MyScene {
                         const lamp = new Lamp(
                             this.scene,
                             i - this.getCenterMap().x,
-                            2,
+                            -1,
                             j - this.getCenterMap().y,
                             this.cubeSize,
                             rotationLamp[rotationIterator],
                         );
                         lamp.draw();
+                        lamp.animate();
                         rotationIterator++;
                         break;
                     case 7:
                         const firewokrs = new Fireworks(
                             this.scene,
                             i - this.getCenterMap().x,
-                            3,
+                            -1.5,
                             j - this.getCenterMap().y,
                             this.cubeSize - 50,
                         );
@@ -134,11 +146,12 @@ export class MyScene {
                         const santa = new Santa(
                             this.scene,
                             i - this.getCenterMap().x,
-                            2,
+                            -1,
                             j - this.getCenterMap().y,
                             this.cubeSize,
                         );
                         santa.draw();
+                        santa.animate();
                         break;
                 }
             }
@@ -150,7 +163,7 @@ export class MyScene {
                         const clouds = new Clouds(
                             this.scene,
                             i - this.getCenterMap().x,
-                            9,
+                            6,
                             j - this.getCenterMap().y,
                             this.cubeSize,
                         );

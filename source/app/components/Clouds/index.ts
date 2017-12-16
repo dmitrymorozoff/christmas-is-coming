@@ -83,7 +83,7 @@ export class Clouds {
     }
     public animate() {
         const toX = this.x;
-        TweenMax.to(this.clouds.position, 3, {
+        TweenMax.to(this.clouds.position, 1.75, {
             x: toX + 250,
             repeat: -1,
             yoyo: true,

@@ -18,6 +18,7 @@ export class Deer {
         head: number;
         horns: number;
         nose: number;
+        brown: number;
     };
     public z: number;
     public y: number;
@@ -42,6 +43,7 @@ export class Deer {
             head: 0x76543b,
             horns: 0xfbb37f,
             nose: 0xe50000,
+            brown: 0x432314,
         };
         this.deer = new Group();
     }
@@ -149,6 +151,16 @@ export class Deer {
                 position.y,
                 position.z,
                 this.color.paws,
+            );
+            this.generateMergedObject(
+                mergedPawsGeometry,
+                this.cubeSize / 4.8,
+                this.cubeSize / 4.8,
+                this.cubeSize / 4.8,
+                position.x,
+                position.y - this.cubeSize / 2.5,
+                position.z,
+                this.color.brown,
             );
         }
         const paws = new Mesh(mergedPawsGeometry, mainMaterial);
