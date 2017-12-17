@@ -1,6 +1,6 @@
 # Christmas is coming ...
 
-3D Scene with Three.js
+3D Isometric Scene with Three.js
 
 ## How to use
 
